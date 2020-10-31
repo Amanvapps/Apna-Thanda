@@ -1,6 +1,6 @@
 class ApiConstants
 {
-  static const String URL = "https://techeor.co.in/showbiz/API/";
+  static const String URL = "http://techeor.co.in/apnathanda/API/";
 
 
   static const String LOGIN = "login.php";
@@ -24,7 +24,9 @@ class ApiConstants
   static const String PAYMENT_HISTORY = "paymentHistory.php";
   static const String RESET_PASSWORD = "forgetPassword.php";
   static const String BANNERS = "banners.php";
-  static const String PRIVACY_POLICY = "https://365mixmart.com/privacy_policy.php";
+  static const String PRIVACY_POLICY = "https://techeor.co.in/apnathanda/privacy_policy.html";
   static const String CHECK_AVAILABLE = "check_pincode.php";
+  static const String NEW_HOME = "cat_subcat_prod.php";
+  static const String VILLAGES = "del_village_list.php";
 
 }

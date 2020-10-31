@@ -1,3 +1,4 @@
+import 'package:ecommerceapp/models/home_model.dart';
 import 'package:ecommerceapp/models/main_category_model.dart';
 import 'package:ecommerceapp/models/sub_categories_model.dart';
 import 'package:ecommerceapp/utils/ApiConstants.dart';
@@ -15,6 +16,21 @@ class CategoryService
     {
       List<MainCategories> mainCategoryList = MainCategories.fromJSONList(response["data"]);
       return mainCategoryList;
+    }
+    else
+      return null;
+
+  }
+
+  static getNewHome() async
+  {
+    var response = await RequestHandler.GET(ApiConstants.NEW_HOME , {
+      "token" : TOKEN
+    });
+    if(response["status"]=="1" && response["cat"]!=null)
+    {
+      List<HomeCategories> mainList = HomeCategories.fromJSONList(response["cat"]);
+      return mainList;
     }
     else
       return null;
@@ -42,6 +58,8 @@ class CategoryService
     var response = await RequestHandler.GET(ApiConstants.BANNERS , {
       "token" : TOKEN
     });
+
+    print("banner res--${response}");
 
     if(response["status"] == "1")
     return response["data"];

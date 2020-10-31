@@ -29,10 +29,9 @@ class _PolicyScreenState extends State<PolicyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          iconTheme: new IconThemeData(color: Colors.black),
+          iconTheme: new IconThemeData(color: Colors.white),
           elevation: 2,
-          backgroundColor: Colors.white,
-          title: Text('  Policy' , style: TextStyle(color: Colors.black),),
+          title: Center(child: Text('Policy' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
             Container(
               margin: EdgeInsets.all(5),

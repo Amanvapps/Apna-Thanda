@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class DrawerElements {
 
 
-  static getDrawer(pageName , BuildContext context,  mainCtx , name)  {
+  static getDrawer(pageName , BuildContext context,  mainCtx , name , email)  {
 
     return ListView(
       padding: EdgeInsets.zero,
@@ -14,25 +14,36 @@ class DrawerElements {
           child : Container(
             margin: const EdgeInsets.all(10),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expanded(
-                  child: Container(
-                    child: Image.asset('images/profile_default.png'),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                        child: Image.asset('images/profile_default.png', scale: 3,),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      )
+                    ),
+                    SizedBox(width: 10,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(child: Text('${name}' , style: TextStyle(fontSize: 20),)),
+                        Container(
+                            width: 170,
+                            child: Text('${email}' , style: TextStyle(fontSize: 14 , color: Colors.black54)))
+                      ],
                     )
-                  ),
+                  ],
                 ),
-                SizedBox(height: 10,),
-                FittedBox(child: Text('  ${name}' , style: TextStyle(fontSize: 20),))
+
               ],
             ),
           ),
           decoration: BoxDecoration(
-              color: Colors.blueAccent,
+              color: Colors.blue,
           ),
         ),
         ...Routes.getUserRoutes(context, pageName , mainCtx),                 //assigned collection of navigation elements

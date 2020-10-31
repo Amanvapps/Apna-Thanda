@@ -94,10 +94,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         {
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           String userName = prefs.getString('userName');
+                                          String email = prefs.getString('userEmailId');
 
                                           Navigator.pushReplacement(
                                             context,
-                                            MaterialPageRoute(builder: (context) => MainScreen(userName)),
+                                            MaterialPageRoute(builder: (context) => MainScreen(userName , email)),
                                           );
                                         }
                                       else

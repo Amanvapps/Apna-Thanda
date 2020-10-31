@@ -56,20 +56,18 @@ class PaymentService
 
   }
 
-
-  static checkAvailability(pincode) async
+  static getVillages() async
   {
-    var resposne = await RequestHandler.GET(ApiConstants.CHECK_AVAILABLE , {
+    var resposne = await RequestHandler.GET(ApiConstants.VILLAGES , {
       "token" : TOKEN,
-      "pincode" : pincode
     });
 
-    if(resposne["status"] == "1")
+    if(resposne["status"] == "1" && resposne["data"] != null)
     {
-      return true;
+      return resposne["data"];
     }
     else
-      return false;
+      return null;
 
   }
 

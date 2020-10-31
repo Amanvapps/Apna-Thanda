@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Center(
           child: Container(
             margin: EdgeInsets.all(20),
-            child: Image.asset("images/logo_second.jpeg" , fit: BoxFit.cover,),
+            child: Image.asset("images/logo.jpeg" , fit: BoxFit.cover,),
           ),
         ));
   }
@@ -48,9 +48,10 @@ class _SplashScreenState extends State<SplashScreen> {
     {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userName = prefs.getString('userName');
+      String email = prefs.getString('userEmailId');
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => MainScreen(userName)));
+          builder: (BuildContext context) => MainScreen(userName , email)));
     }
 
   }

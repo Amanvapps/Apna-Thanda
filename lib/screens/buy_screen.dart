@@ -1,7 +1,6 @@
 import 'package:ecommerceapp/models/cart_model.dart';
 import 'package:ecommerceapp/models/product_model.dart';
 import 'package:ecommerceapp/pages/cart_page.dart';
-import 'package:ecommerceapp/screens/online_payment_webview.dart';
 import 'package:ecommerceapp/screens/order_successful_screen.dart';
 import 'package:ecommerceapp/services/auth_service.dart';
 import 'package:ecommerceapp/services/cart_service.dart';
@@ -19,8 +18,9 @@ class BuyScreen extends StatefulWidget {
  ProductModel productItem;
  int quantity;
  var username;
+ var email;
 
-  BuyScreen(this.mainCtx , this.productItem , this.quantity , this.username);
+  BuyScreen(this.mainCtx , this.productItem , this.quantity , this.username , this.email);
 
   @override
   _BuyScreenState createState() => _BuyScreenState();
@@ -118,10 +118,10 @@ class _BuyScreenState extends State<BuyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          iconTheme: new IconThemeData(color: Colors.black),
+          iconTheme: new IconThemeData(color: Colors.white),
           elevation: 2,
-          backgroundColor: Colors.white,
-          title: Text('  Purchase' , style: TextStyle(color: Colors.black),),
+//          backgroundColor: Colors.white,
+          title: Center(child: Text('Purchase' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
             Container(
               margin: EdgeInsets.all(5),
@@ -204,72 +204,19 @@ class _BuyScreenState extends State<BuyScreen> {
                           ],
                         ),
                         SizedBox(height: 20,),
-                        Row(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Quantity   ' , style: TextStyle(fontSize: 18)),
-                            Expanded(child: Text('${widget.quantity}' , style: TextStyle(fontSize: 18 , color: Colors.black54)))
+                         //   Expanded(child: Text('${widget.quantity}' , style: TextStyle(fontSize: 18 , color: Colors.black54)))
+                            SizedBox(height: 10,),
+                            Container(
+                              child: quantityButtons(widget.productItem),
+                            )
                           ],
                         )
                       ],
                     ),
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                      margin: const EdgeInsets.only(left: 20),
-                      child: Text('Check Availability' , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),)),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            var res = await pincodeDialog();
-
-                            if(res != null)
-                              {
-                                isDeletingCart = true;
-                                setState(() {
-                                });
-
-                                bool result = await PaymentService.checkAvailability(res);
-
-                                if(result == true)
-                                  {
-                                    isAvailable = "Available";
-                                    availabilityColor = Colors.green;
-                                  }
-                                else
-                                  {
-                                    isAvailable = "Not Available";
-                                    availabilityColor = Colors.red;
-                                  }
-
-
-                                isDeletingCart = false;
-                                setState(() {
-                                });
-
-                              }
-
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Text('Check' , style: TextStyle(color: Colors.white , fontSize: 17),),
-                            margin: EdgeInsets.all(20),
-                            height: 50,
-                            width: 150,
-                            decoration: BoxDecoration(
-                               color: Colors.grey[500],
-                               borderRadius: BorderRadius.circular(6)
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20,),
-                      Container(
-                          margin: const EdgeInsets.only(right: 30),
-                          child: Text('${isAvailable}' , style: TextStyle(fontSize: 16 , color : availabilityColor),))
-                    ],
                   ),
                   SizedBox(height: 10,),
                   Row(
@@ -338,12 +285,12 @@ class _BuyScreenState extends State<BuyScreen> {
             child: GestureDetector(
               onTap: (){
 
-                if(int.parse(widget.productItem.cod_mode) == 0)
-                  {
-                    Fluttertoast.showToast(msg: "Only available in online payment!" , textColor: Colors.white , backgroundColor: Colors.black);
-                  }
-                else
-                  {
+//                if(int.parse(widget.productItem.cod_mode) == 0)
+//                  {
+//                    Fluttertoast.showToast(msg: "Only available in online payment!" , textColor: Colors.white , backgroundColor: Colors.black);
+//                  }
+//                else
+//                  {
                     isDeletingCart = true;
                     setState(() {
 
@@ -351,8 +298,8 @@ class _BuyScreenState extends State<BuyScreen> {
                       payCash();
 
                     });
-                  }
-              },
+                  },
+//              },
               child: Container(
                 height: 70,
                 color: Colors.red,
@@ -362,20 +309,6 @@ class _BuyScreenState extends State<BuyScreen> {
               ),
             ),
           ),
-//          Expanded(
-//            child: GestureDetector(
-//              onTap: () async {
-//                payOnline();
-//              },
-//              child: Container(
-//                height: 70,
-//                color: Colors.red,
-//                padding: const EdgeInsets.all(6),
-//                alignment: Alignment.center,
-//                child: Text('Pay Online' , style: TextStyle(color: Colors.white , fontSize: 20),),
-//              ),
-//            ),
-//          )
         ],
       ),
     );
@@ -756,7 +689,7 @@ class _BuyScreenState extends State<BuyScreen> {
               {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CartPage(widget.mainCtx, widget.username)),
+                  MaterialPageRoute(builder: (context) => CartPage(widget.mainCtx, widget.username , widget.email)),
                 );
               }
               else
@@ -795,74 +728,111 @@ class _BuyScreenState extends State<BuyScreen> {
 
   }
 
-   payOnline() async
-   {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-     String userId = prefs.getString('userId');
-
-     if(!EmptyValidation.isEmpty(userId))
-     {
-
-       isDeletingCart = true;
-       setState(() {
-       });
-
-       List<CartModel> cartList = await CartService.getCartList(userId);
-
-       if(cartList==null)
-       {
-         bool result = await updateCart(userId);
-
-         if(result == true)
-         {
-           Navigator.push(
-             context,
-             MaterialPageRoute(builder: (context) => PaymentWebview(isCouponApplied , couponController.text , totalAmount.toString() , name , phone , email , deliveryCharge ,  address)),
-           );
-         }
-         else
-           {
-             Fluttertoast.showToast(msg: "Not added to cart!" , textColor: Colors.white , backgroundColor: Colors.black);
-           }
-
-       }
-       else
-       {
-         if(cartList.length>0)
-         {
-           //add to cart and take to cart page...
 
 
-           bool result = await updateCart(userId);
 
-           if(result == true)
-           {
-             Navigator.push(
-               context,
-               MaterialPageRoute(builder: (context) => CartPage(widget.mainCtx, widget.username)),
-             );
-           }
-           else
-           {
-             Fluttertoast.showToast(msg: "Not added to cart!" , textColor: Colors.white , backgroundColor: Colors.black);
-           }
+  quantityButtons(ProductModel cartItem)
+  {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: (){
+            if(widget.quantity > 1)
+            {
+              widget.quantity--;
+              discountPercentage = ((double.parse(widget.productItem.real_price) - double.parse(widget.productItem.sale_price))/double.parse(widget.productItem.real_price)) * 100;
+              deliveryCharge = double.parse(widget.productItem.ship_charge) * widget.quantity;
+
+              totalAmount = (double.parse(widget.productItem.sale_price) * widget.quantity) + deliveryCharge;
+
+              setState(() {
+              });
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(12) , bottomLeft: Radius.circular(12)),
+              border: Border.all(),
+            ),
+            child: Icon(Icons.remove , color: Colors.grey, size: 25,),
+          ),
+        ),
+        Container(
+          margin : const EdgeInsets.only(left: 4 , right: 4),
+          padding: const EdgeInsets.all(6.0),
+          child: Text(widget.quantity.toString() , style: TextStyle(fontSize: 18 , fontWeight: FontWeight.bold , color: Colors.black),),
+        ),
+        GestureDetector(
+          onTap: (){
+            if(widget.quantity < 5)
+            {
+              widget.quantity++;
+              discountPercentage = ((double.parse(widget.productItem.real_price) - double.parse(widget.productItem.sale_price))/double.parse(widget.productItem.real_price)) * 100;
+              deliveryCharge = double.parse(widget.productItem.ship_charge) * widget.quantity;
+
+              totalAmount = (double.parse(widget.productItem.sale_price) * widget.quantity) + deliveryCharge;
+
+              setState(() {
+              });
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topRight: Radius.circular(12) , bottomRight: Radius.circular(12)),
+                border: Border.all()
+            ),
+            child: Icon(Icons.add ,  color: Colors.grey, size: 25,),
+          ),
+        ),
+        SizedBox(width: 30,),
+        GestureDetector(
+          onTap: (){
+            saveToCart(cartItem.prod_id , cartItem.prod_code , widget.quantity.toString() , cartItem.sale_price);
+          },
+          child: Container(
+            padding: EdgeInsets.all(5),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                border: Border.all(color: Colors.red)
+            ),
+            child: FittedBox(child: Text('Add To Cart' , style: TextStyle(fontSize : 13 , color: Colors.red),)),
+          ),
+        )
+      ],
+    );
+  }
 
 
-         }
-       }
+  saveToCart(String prod_id , String prod_code, String quantity, String sale_price)  async
+  {
+    isDeletingCart = true;
+    setState(() {
+    });
 
-     }
-     else
-       {
-         AuthService.logout(context);
-         Fluttertoast.showToast(msg: "Session expired!" , backgroundColor: Colors.black , textColor: Colors.white);
-       }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString('userId');
 
-     isDeletingCart = false;
-     setState(() {
-     });
+    if(!EmptyValidation.isEmpty(userId))
+    {
 
-   }
+      bool res = await CartService.saveCart(userId, prod_id, quantity, sale_price);
 
+      if(res==true)
+        Fluttertoast.showToast(msg: "Added To Cart" , backgroundColor: Colors.black , textColor: Colors.white);
+
+
+    }
+
+    isDeletingCart = false;
+    setState(() {
+    });
+
+  }
 
 }

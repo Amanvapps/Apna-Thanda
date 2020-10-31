@@ -18,8 +18,9 @@ class CartPage extends StatefulWidget {
 
   var mainCtx;
   var username;
+  var email;
 
-  CartPage(this.mainCtx , this.username);
+  CartPage(this.mainCtx , this.username , this.email);
 
   @override
   _CartPageState createState() => _CartPageState();
@@ -111,13 +112,12 @@ getCart() async
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: Drawer(
-        child: DrawerElements.getDrawer("cart_page", context, widget.mainCtx , widget.username),
+        child: DrawerElements.getDrawer("cart_page", context, widget.mainCtx , widget.username , widget.email),
       ),
       appBar: AppBar(
-          iconTheme: new IconThemeData(color: Colors.black),
+          iconTheme: new IconThemeData(color: Colors.white),
           elevation: 2,
-          backgroundColor: Colors.white,
-          title: Text('Shopping Cart' , style: TextStyle(color: Colors.black),),
+          title: Center(child: Text('Shopping Cart' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
             Container(
               margin: EdgeInsets.all(5),
@@ -401,17 +401,20 @@ getCart() async
         children: [
           GestureDetector(
             onTap: () async {
-//              var res = await showDeleteCashItemsAlert();
-//
-//              if(res == "true")
-//              {
+
+              if(totalAmount >=1500)
+              {
                 isDeletingCart = true;
                 setState(() {
                 });
 
               updateCart();
 
-//              }
+              }
+              else
+                {
+                  Fluttertoast.showToast(msg: "Minimum order value is 15000 /-" , textColor: Colors.white , backgroundColor: Colors.black);
+                }
 
             },
             child: Container(
@@ -526,7 +529,11 @@ getCart() async
 
        if(res == true)
          {
-          deleteCash(userId );
+//          deleteCash(userId );
+         Navigator.push(
+           context,
+           MaterialPageRoute(builder: (context) => UpdatedCartScreen("cod")),
+         );
          }
        else
          {

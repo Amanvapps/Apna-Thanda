@@ -17,8 +17,9 @@ class TransactionHistoryPage extends StatefulWidget {
 
   var mainCtx;
   var username;
+  var email;
 
-  TransactionHistoryPage(this.mainCtx , this.username);
+  TransactionHistoryPage(this.mainCtx , this.username , this.email);
 
   @override
   _TransactionHistoryPageState createState() => _TransactionHistoryPageState();
@@ -65,13 +66,12 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        child: DrawerElements.getDrawer("history", context, widget.mainCtx , widget.username),
+        child: DrawerElements.getDrawer("history", context, widget.mainCtx , widget.username , widget.email),
       ),
       appBar: AppBar(
-          iconTheme: new IconThemeData(color: Colors.black),
+          iconTheme: new IconThemeData(color: Colors.white),
           elevation: 2,
-          backgroundColor: Colors.white,
-          title: Text('  Payment History' , style: TextStyle(color: Colors.black),),
+          title: Center(child: Text('Payment History' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
             Container(
               margin: EdgeInsets.all(5),

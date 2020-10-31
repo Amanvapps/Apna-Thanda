@@ -8,9 +8,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class MainScreen extends StatefulWidget {
 
-  var username;
+  var username , email;
 
-  MainScreen(this.username);
+  MainScreen(this.username , this.email);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -32,10 +32,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() => {
     (() async {
-      categoryPage = CategoryPage(context , widget.username);
-      wishlistPage = WishlistPage(context , widget.username);
-      transactionHistoryPage = TransactionHistoryPage(context , widget.username);
-      cartPage = CartPage(context , widget.username);
+      categoryPage = CategoryPage(context , widget.username , widget.email);
+      wishlistPage = WishlistPage(context , widget.username , widget.email);
+      transactionHistoryPage = TransactionHistoryPage(context , widget.username , widget.email);
+      cartPage = CartPage(context , widget.username , widget.email);
 
 
       pages = [categoryPage , wishlistPage , cartPage  , transactionHistoryPage];
@@ -61,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
         currentIndex: currentTabIndex,
         type: BottomNavigationBarType.fixed,
         elevation: 5,
-        selectedItemColor: Colors.blueAccent,
+        selectedItemColor: Colors.lightBlue,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home),

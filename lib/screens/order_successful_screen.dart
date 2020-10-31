@@ -36,7 +36,7 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
             Container(
               margin: EdgeInsets.all(5),
               child: CircleAvatar(
-                backgroundColor: Colors.white,
+//                backgroundColor: Colors.white,
 //              child: Image.network("")),
                 child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
               ),)

@@ -2,7 +2,7 @@ class PaymentModel
 {
   String prod_name;
   String prod_code;
-  String prod_price;
+  int prod_price;
   String prod_qty;
   String order_type;
   String order_status;

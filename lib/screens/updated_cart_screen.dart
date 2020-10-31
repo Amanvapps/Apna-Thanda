@@ -1,5 +1,4 @@
 import 'package:ecommerceapp/models/cart_model.dart';
-import 'package:ecommerceapp/screens/online_payment_webview.dart';
 import 'package:ecommerceapp/screens/order_successful_screen.dart';
 import 'package:ecommerceapp/services/auth_service.dart';
 import 'package:ecommerceapp/services/cart_service.dart';
@@ -31,6 +30,10 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
 
   var name , address , email , phone;
   bool isCouponApplied = false;
+  var selectedArea = null;
+
+  List<String> areaList = [
+  ];
 
   TextEditingController couponController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -109,6 +112,16 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
 
       }
 
+      //add villages...
+      var res = await PaymentService.getVillages();
+
+      if(res!=null)
+        {
+          res.forEach((element) { 
+            areaList.add(element["place"].toString());
+          });
+        }
+
       isLoading = false;
       setState(() {
       });
@@ -155,10 +168,10 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          iconTheme: new IconThemeData(color: Colors.black),
+          iconTheme: new IconThemeData(color: Colors.white),
           elevation: 2,
-          backgroundColor: Colors.white,
-          title: Text('  Payment' , style: TextStyle(color: Colors.black),),
+//          backgroundColor: Colors.white,
+          title: Center(child: Text('Payment' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
             Container(
               margin: EdgeInsets.all(5),
@@ -209,6 +222,11 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
                   margin: const EdgeInsets.only(left: 20),
                   child: Text('Discounts' , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),)),
               _buildDiscountContainer(),
+              SizedBox(height: 20,),
+              Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: Text('Select Area' , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),)),
+              _buildAreaContainer(),
               SizedBox(height: 20,),
               Container(
                   margin: const EdgeInsets.only(left: 20),
@@ -340,17 +358,19 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
             onTap: (){
               if(widget.paymentMode == "online")
               {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => PaymentWebview(isCouponApplied , couponController.text , totalAmount.toString() , name , phone , email , deliveryCharge ,  address)),
-                );
               }
               else
                 {
                   //call cod api and move to thanks screen.....
 
 
-                  payCod();
+                  if(selectedArea == null)
+                    Fluttertoast.showToast(msg: "Please select location!");
+                  else
+                    {
+                      payCod();
+                    }
+
 
                 }
             },
@@ -603,14 +623,14 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
 
        if(res == true)
          {
-           Fluttertoast.showToast(msg: "Payment Successful" , backgroundColor: Colors.black , textColor: Colors.white);
+         //  Fluttertoast.showToast(msg: "Order Placed Successfully" , backgroundColor: Colors.black , textColor: Colors.white);
            Navigator.pushReplacement(
              context,
              MaterialPageRoute(builder: (context) => OrderSuccessfulScreen()),
            );
          }
        else
-         Fluttertoast.showToast(msg: "Payment Failed!" , backgroundColor: Colors.black , textColor: Colors.white);
+         Fluttertoast.showToast(msg: "Order Placing Failed!" , backgroundColor: Colors.black , textColor: Colors.white);
 
        isDeletingCart = false;
        setState(() {
@@ -622,5 +642,30 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
          AuthService.logout(context);
        }
    }
+
+  _buildAreaContainer()
+  {
+    return DropdownButtonHideUnderline(
+      child: Container(
+        margin: EdgeInsets.only(top: 10 , left: 20 , right: 20),
+        decoration: BoxDecoration(
+          border: Border.all()
+        ),
+        child: new DropdownButton<String>(
+          items: areaList.map((var value) {
+            return new DropdownMenuItem(
+              value: value,
+              child: new Text(value),
+            );
+          }).toList(),
+          hint: Text((selectedArea == null) ? "  Please choose a location" : "  ${selectedArea}"),
+          onChanged: (value1) {
+            selectedArea = value1;
+            setState(() {});
+          },
+        ),
+      )
+      );
+  }
 
 }

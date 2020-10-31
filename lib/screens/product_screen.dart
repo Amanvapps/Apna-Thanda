@@ -15,11 +15,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductScreen extends StatefulWidget {
 
-  var mainCtx , username;
-  MainCategories categories;
-  SubCategoriesModel subCategories;
+  var mainCtx , username , email;
+  List<ProductModel> productList;
 
-  ProductScreen(this.subCategories , this.categories , this.mainCtx , this.username);
+  ProductScreen(this.productList , this.mainCtx , this.username , this.email);
 
   @override
   _ProductScreenState createState() => _ProductScreenState();
@@ -28,7 +27,7 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
 
 
-  List<ProductModel> productList = [] , wishList = [];
+  List<ProductModel>  wishList = [];
   List<int> quantityItemList = [];
   List<ProductModel> _searchResult = [];
   bool isLoading = true;
@@ -43,7 +42,7 @@ class _ProductScreenState extends State<ProductScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userId = prefs.getString('userId');
 
-      productList = await ProductService.getProductList(widget.categories.name, widget.subCategories.name);
+//      productList = await ProductService.getProductList(widget.categories.name, widget.subCategories.name);
       wishList = await WishlistService.getWishList(userId);
 
       if(wishList!=null)
@@ -53,9 +52,9 @@ class _ProductScreenState extends State<ProductScreen> {
           });
         }
 
-      if(productList!=null)
+      if(widget.productList!=null)
         {
-          productList.forEach((element) {
+          widget.productList.forEach((element) {
             quantityItemList.add(1);
           });
 
@@ -75,10 +74,9 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          iconTheme: new IconThemeData(color: Colors.black),
+          iconTheme: new IconThemeData(color: Colors.white),
           elevation: 2,
-          backgroundColor: Colors.white,
-          title: Text('  Products' , style: TextStyle(color: Colors.black),),
+          title: Center(child: Text('Products' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
             Container(
               margin: EdgeInsets.all(5),
@@ -98,7 +96,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 Container(
                     margin: const EdgeInsets.only(left: 20 , right: 20 , top: 2),
                     child: searchField()),
-                (productList != null) ? (productList.length>0) ? Expanded(
+                (widget.productList != null) ? (widget.productList.length>0) ? Expanded(
                   child: Container(
                     margin: const EdgeInsets.all(20),
                     child:  _searchResult.length != 0 || searchController.text.isNotEmpty
@@ -130,10 +128,10 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget _buildResults() {
 
     return ListView.builder(
-        itemCount: productList.length,
+        itemCount: widget.productList.length,
         itemBuilder: (BuildContext context , int index)
         {
-          return itemCard(productList[index] , index);
+          return itemCard(widget.productList[index] , index);
         }
     );
   }
@@ -242,7 +240,7 @@ class _ProductScreenState extends State<ProductScreen> {
               onTap: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => BuyScreen(widget.mainCtx , productItem , quantityItemList[index] , widget.username)),
+                  MaterialPageRoute(builder: (context) => BuyScreen(widget.mainCtx , productItem , quantityItemList[index] , widget.username , widget.email)),
                 );
               },
               child: Container(
@@ -377,7 +375,7 @@ class _ProductScreenState extends State<ProductScreen> {
       return;
     }
 
-    productList.forEach((userDetail) {
+    widget.productList.forEach((userDetail) {
       if (userDetail.prod_name.toLowerCase().contains(text.toLowerCase()))
       {
       _searchResult.add(userDetail);
@@ -434,7 +432,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 if(wishList.length>0)
                 wishList.clear();
 
-                if(productList.length>0)
+                if(widget.productList.length>0)
                 wishlistProductIds.clear();
 
                 wishList = await WishlistService.getWishList(userId);
@@ -481,7 +479,7 @@ class _ProductScreenState extends State<ProductScreen> {
            if(wishList.length>0)
              wishList.clear();
 
-           if(productList.length>0)
+           if(widget.productList.length>0)
              wishlistProductIds.clear();
 
            wishList = await WishlistService.getWishList(userId);

@@ -13,8 +13,9 @@ class WishlistPage extends StatefulWidget {
 
   var mainCtx;
   var username;
+  var email;
 
-  WishlistPage(this.mainCtx , this.username);
+  WishlistPage(this.mainCtx , this.username , this.email);
 
   @override
   _WishlistPageState createState() => _WishlistPageState();
@@ -69,13 +70,12 @@ class _WishlistPageState extends State<WishlistPage> {
 
     return Scaffold(
       drawer: Drawer(
-        child: DrawerElements.getDrawer("wishlist_page", context, widget.mainCtx , widget.username),
+        child: DrawerElements.getDrawer("wishlist_page", context, widget.mainCtx , widget.username , widget.email),
       ),
       appBar: AppBar(
-          iconTheme: new IconThemeData(color: Colors.black),
+          iconTheme: new IconThemeData(color: Colors.white),
           elevation: 2,
-          backgroundColor: Colors.white,
-          title: Text('  Your Wishlist' , style: TextStyle(color: Colors.black),),
+          title: Center(child: Text('Your Wishlist' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
             Container(
               margin: EdgeInsets.all(5),
