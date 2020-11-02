@@ -30,7 +30,6 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
       appBar: AppBar(
           iconTheme: new IconThemeData(color: Colors.black),
           elevation: 2,
-          backgroundColor: Colors.white,
           title: Text(''),
           actions : <Widget>[
             Container(

@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'E commerce',
       theme: ThemeData(
-        primaryColor: Colors.lightBlue,
+        primaryColor: Color.fromRGBO(0, 112, 76, 1),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
         home: SplashScreen(),

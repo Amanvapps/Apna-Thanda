@@ -30,10 +30,10 @@ class DrawerElements {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        FittedBox(child: Text('${name}' , style: TextStyle(fontSize: 20),)),
+                        FittedBox(child: Text('${name}' , style: TextStyle(fontSize: 20 , color: Colors.white),)),
                         Container(
                             width: 170,
-                            child: Text('${email}' , style: TextStyle(fontSize: 14 , color: Colors.black54)))
+                            child: Text('${email}' , style: TextStyle(fontSize: 14 , color: Colors.white)))
                       ],
                     )
                   ],
@@ -43,7 +43,7 @@ class DrawerElements {
             ),
           ),
           decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Color.fromRGBO(0, 112, 76, 1),
           ),
         ),
         ...Routes.getUserRoutes(context, pageName , mainCtx),                 //assigned collection of navigation elements

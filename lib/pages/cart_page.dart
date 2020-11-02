@@ -147,13 +147,13 @@ getCart() async
           (!isDeletingCart) ? Container(): Center(
             child: SpinKitCircle(
               size: 125,
-              color: Colors.red,
+              color: Color.fromRGBO(7, 116, 78 ,  1),
             ),
           ),
         ],
       ) : Center(
         child: Text('Empty Cart :(' , style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold),),
-      ) : Loader.getLoader(),
+      ) : Loader.getListLoader(context),
     );
   }
 
@@ -320,7 +320,7 @@ getCart() async
               padding: const EdgeInsets.all(5),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.blueAccent,
+                  color: Color.fromRGBO(0, 112, 76, 1),
                   borderRadius: BorderRadius.circular(6)
               ),
               child: Icon(Icons.remove , color: Colors.white,),
@@ -351,7 +351,7 @@ getCart() async
               padding: const EdgeInsets.all(5),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                color: Color.fromRGBO(0, 112, 76, 1),
                 borderRadius: BorderRadius.circular(6)
               ),
               child: Icon(Icons.add ,  color: Colors.white,),
@@ -413,7 +413,7 @@ getCart() async
               }
               else
                 {
-                  Fluttertoast.showToast(msg: "Minimum order value is 15000 /-" , textColor: Colors.white , backgroundColor: Colors.black);
+                  Fluttertoast.showToast(msg: "Minimum order value is 1500 /-" , textColor: Colors.white , backgroundColor: Colors.black);
                 }
 
             },
@@ -423,13 +423,14 @@ getCart() async
               margin: EdgeInsets.only(left : 20.0 , right: 20 , top: 50),
               height: 50.0,
               decoration: BoxDecoration(
-                  border: Border.all(color : Colors.blue),
-                  borderRadius: BorderRadius.circular(30.0)
+//                  border: Border.all(color : Color.fromRGBO(0, 112, 76, 1)),
+                  borderRadius: BorderRadius.circular(30.0),
+                  color : Color.fromRGBO(0, 112, 76, 1)
               ),
               child: Center(
                 child: Text('Cash On Delivery',
                   style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0
                   ),),
@@ -530,6 +531,9 @@ getCart() async
        if(res == true)
          {
 //          deleteCash(userId );
+         isDeletingCart = false;
+         setState(() {
+         });
          Navigator.push(
            context,
            MaterialPageRoute(builder: (context) => UpdatedCartScreen("cod")),

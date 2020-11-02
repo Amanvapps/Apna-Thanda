@@ -237,7 +237,7 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
           (!isDeletingCart) ? Container(): Center(
             child: SpinKitCircle(
               size: 125,
-              color: Colors.red,
+              color: Color.fromRGBO(7, 116, 78 ,  1),
             ),
           ),
         ],
@@ -378,7 +378,7 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
               width: MediaQuery.of(context).size.width,
               height: 50.0,
               decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Color.fromRGBO(0, 112, 76, 1),
                   borderRadius: BorderRadius.circular(30.0)
               ),
               child: Center(
@@ -431,7 +431,7 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: Colors.red
+                color: Color.fromRGBO(210, 15, 9, 1)
             ),
             child: Column(
               children: [
@@ -616,9 +616,9 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
        var res;
 
        if(isCouponApplied == true)
-         res = await PaymentService.setPayment(userId , nameController.text , phoneController.text , emailController.text , "XYZ COD" , addressController.text ,  deliveryCharge.toString() , 1 , couponController.text);
+         res = await PaymentService.setPayment(userId , nameController.text , phoneController.text , emailController.text , "XYZ COD" , addressController.text + " at " + selectedArea ,  deliveryCharge.toString() , 1 , couponController.text);
        else
-         res = await PaymentService.setPayment(userId , nameController.text , phoneController.text , emailController.text , "XYZ COD" , addressController.text ,  deliveryCharge.toString() , 0 , " ");
+         res = await PaymentService.setPayment(userId , nameController.text , phoneController.text , emailController.text , "XYZ COD" , addressController.text + " at " + selectedArea ,  deliveryCharge.toString() , 0 , " ");
 
 
        if(res == true)

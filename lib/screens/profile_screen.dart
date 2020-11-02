@@ -127,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
               ),
-              child : Image.network('${userProfile.profile_image}',  fit: BoxFit.cover),
+              child : Image.asset('images/profile_default.png',  fit: BoxFit.cover),
             ),
 //            Align(
 //                alignment: Alignment.bottomRight,
@@ -178,7 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.symmetric(vertical : 5.0),
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.email, color: Colors.blue,),
+                  Icon(Icons.email, color: Color.fromRGBO(7, 116, 78 ,  1),),
                   SizedBox(width: 15.0,),
                   Text('${userProfile.email_id}' , style: TextStyle(fontSize: 16.0),),
                 ],
@@ -189,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.symmetric(vertical : 5.0),
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.location_on, color: Colors.blue,),
+                  Icon(Icons.location_on, color: Color.fromRGBO(7, 116, 78 ,  1),),
                   SizedBox(width: 15.0,),
                   Text('${userProfile.address}' , style: TextStyle(fontSize: 16.0),),
                 ],
@@ -200,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.symmetric(vertical : 5.0),
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.location_city, color: Colors.blue,),
+                  Icon(Icons.location_city, color: Color.fromRGBO(7, 116, 78 ,  1),),
                   SizedBox(width: 15.0,),
                   Text('${userProfile.city}' , style: TextStyle(fontSize: 16.0),),
                 ],
@@ -211,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.symmetric(vertical : 5.0),
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.payment, color: Colors.blue,),
+                  Icon(Icons.payment, color: Color.fromRGBO(7, 116, 78 ,  1),),
                   SizedBox(width: 15.0,),
                   Text('${userProfile.pincode}' , style: TextStyle(fontSize: 16.0),),
                 ],
@@ -239,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.symmetric(vertical : 5.0),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.phone, color: Colors.blue,),
+                    Icon(Icons.phone, color: Color.fromRGBO(7, 116, 78 ,  1),),
                     SizedBox(width: 15.0,),
                     Text('${userProfile.mobile}' , style: TextStyle(fontSize: 16.0),),
                   ],
@@ -250,7 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.symmetric(vertical : 5.0),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.person, color: Colors.blue,),
+                    Icon(Icons.person, color: Color.fromRGBO(7, 116, 78 ,  1),),
                     SizedBox(width: 15.0,),
                     Text('${userProfile.user_name}' , style: TextStyle(fontSize: 16.0),),
                   ],

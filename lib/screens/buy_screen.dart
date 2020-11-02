@@ -267,7 +267,7 @@ class _BuyScreenState extends State<BuyScreen> {
           (!isDeletingCart) ? Container(): Center(
             child: SpinKitCircle(
               size: 125,
-              color: Colors.red,
+              color: Color.fromRGBO(7, 116, 78 ,  1),
             ),
           ),
         ],
@@ -302,7 +302,7 @@ class _BuyScreenState extends State<BuyScreen> {
 //              },
               child: Container(
                 height: 70,
-                color: Colors.red,
+                color: Color.fromRGBO(0, 112, 76, 1),
                 padding: const EdgeInsets.all(6),
                 alignment: Alignment.center,
                 child: Text('Buy' , style: TextStyle(color: Colors.white , fontSize: 20),),
@@ -396,7 +396,7 @@ class _BuyScreenState extends State<BuyScreen> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: Colors.red
+                color: Color.fromRGBO(210, 15, 9, 1)
             ),
             child: Column(
               children: [
@@ -799,9 +799,9 @@ class _BuyScreenState extends State<BuyScreen> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
-                border: Border.all(color: Colors.red)
+                border: Border.all(color: Color.fromRGBO(0, 112, 76, 1))
             ),
-            child: FittedBox(child: Text('Add To Cart' , style: TextStyle(fontSize : 13 , color: Colors.red),)),
+            child: FittedBox(child: Text('Add To Cart' , style: TextStyle(fontSize : 13 , color: Color.fromRGBO(0, 112, 76, 1)),)),
           ),
         )
       ],

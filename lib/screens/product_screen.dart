@@ -113,7 +113,7 @@ class _ProductScreenState extends State<ProductScreen> {
             (!isAddingToCart) ? Container(): Center(
               child: SpinKitCircle(
                 size: 125,
-                color: Colors.red,
+                color: Color.fromRGBO(7 , 116 , 78 , 1),
               ),
             ),
           ],
@@ -231,7 +231,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
             SizedBox(height: 6,),
             Row(children: [
-              Text('Our Price \u{20B9} ${productItem.sale_price}' , style: TextStyle(color: Colors.red),),
+              Text('Our Price \u{20B9} ${productItem.sale_price}' , style: TextStyle(color: Color.fromRGBO(212 , 15 , 9 , 1)),),
             ],),
             SizedBox(height: 10,),
             quantityButtons(productItem, index),
@@ -251,7 +251,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
 //                  border: Border.all(color: Colors.w),
-                    color: Colors.red
+                    color: Color.fromRGBO(7 , 116 , 78 , 1),
                 ),
                 child: FittedBox(child: Text('Buy' , style: TextStyle(fontSize : 18 , color: Colors.white),)),
               ),
@@ -322,9 +322,9 @@ class _ProductScreenState extends State<ProductScreen> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
-                  border: Border.all(color: Colors.red)
+                  border: Border.all(color: Color.fromRGBO(7, 116, 78 , 1),)
               ),
-              child: FittedBox(child: Text('Add To Cart' , style: TextStyle(fontSize : 13 , color: Colors.red),)),
+              child: FittedBox(child: Text('Add To Cart' , style: TextStyle(fontSize : 13 , color: Color.fromRGBO(7, 116, 78 , 1)),)),
             ),
           ),
         )

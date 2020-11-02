@@ -163,7 +163,7 @@ class _WishlistPageState extends State<WishlistPage> {
             ),
             SizedBox(height: 6,),
             Row(children: [
-              Text('Our Price \u{20B9} ${productItem.sale_price}' , style: TextStyle(color: Colors.red),),
+              Text('Our Price \u{20B9} ${productItem.sale_price}' , style: TextStyle(color: Color.fromRGBO(210, 15, 9, 1)),),
             ],),
             SizedBox(height: 20,),
             GestureDetector(
@@ -177,7 +177,7 @@ class _WishlistPageState extends State<WishlistPage> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
-                    color: Colors.red
+                    color: Color.fromRGBO(0, 112, 76, 1)
                 ),
                 child: FittedBox(child: Text('Remove' , style: TextStyle(fontSize : 18 , color: Colors.white),)),
               ),

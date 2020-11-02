@@ -9,7 +9,7 @@ class Loader {
       child:  Container(
         alignment: Alignment.center,
         child: SpinKitFadingCube(
-          color: Colors.blueAccent,
+          color: Color.fromRGBO(0, 112, 76, 1),
           size: 70.0,
           // controller: AnimationController(vsync: this, duration: const Duration(milliseconds: 1200)),
         ),
@@ -24,7 +24,7 @@ class Loader {
             bottom: MediaQuery.of(context).size.height * 0.1),
         alignment: Alignment.center,
         child: SpinKitPouringHourglass(
-          color: Colors.blueAccent,
+          color: Color.fromRGBO(0, 112, 76, 1),
           size: 40.0,
         ),
       ),

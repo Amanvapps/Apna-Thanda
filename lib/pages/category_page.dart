@@ -71,7 +71,6 @@ class _MainScreenState extends State<CategoryPage> {
       appBar: AppBar(
           iconTheme: new IconThemeData(color: Colors.white),
           elevation: 2,
-          backgroundColor: Colors.lightBlue,
           title: Center(child: Text('Categories' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
             Container(
@@ -142,7 +141,7 @@ class _MainScreenState extends State<CategoryPage> {
                       },
                       child: Container(
                         margin: const EdgeInsets.only(right: 20),
-                        child: Text("See more >" , style: TextStyle(color: Colors.deepOrangeAccent , fontWeight: FontWeight.w500 , fontSize: 14),),
+                        child: Text("See more >" , style: TextStyle(color: Color.fromRGBO(212, 15, 9, 1) , fontWeight: FontWeight.w500 , fontSize: 14),),
                       ),
                     )
                   ],
