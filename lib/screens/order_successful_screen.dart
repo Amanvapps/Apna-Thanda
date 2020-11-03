@@ -32,13 +32,15 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
           elevation: 2,
           title: Text(''),
           actions : <Widget>[
-            Container(
-              margin: EdgeInsets.all(5),
-              child: CircleAvatar(
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.all(5),
+                child: CircleAvatar(
 //                backgroundColor: Colors.white,
 //              child: Image.network("")),
-                child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
-              ),)
+                  child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
+                ),),
+            )
           ]
       ),
       backgroundColor: Colors.white,

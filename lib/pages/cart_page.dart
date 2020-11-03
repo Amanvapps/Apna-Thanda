@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ecommerceapp/models/cart_model.dart';
+import 'package:ecommerceapp/screens/profile_screen.dart';
 import 'package:ecommerceapp/screens/updated_cart_screen.dart';
 import 'package:ecommerceapp/services/payment_service.dart';
 import 'package:ecommerceapp/widgets/navigation_drawer_elements.dart';
@@ -119,13 +120,21 @@ getCart() async
           elevation: 2,
           title: Center(child: Text('Shopping Cart' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
-            Container(
-              margin: EdgeInsets.all(5),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen(widget.mainCtx)),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.all(5),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
 //              child: Image.network("")),
-                child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
-              ),)
+                  child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
+                ),),
+            )
           ]
       ),
       body: (!isLoading) ? (cartList!=null) ? Stack(

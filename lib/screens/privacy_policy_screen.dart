@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ecommerceapp/screens/profile_screen.dart';
 import 'package:ecommerceapp/utils/ApiConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -33,13 +34,21 @@ class _PolicyScreenState extends State<PolicyScreen> {
           elevation: 2,
           title: Center(child: Text('Policy' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
-            Container(
-              margin: EdgeInsets.all(5),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen(widget.mainCtx)),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.all(5),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
 //              child: Image.network("")),
-                child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
-              ),)
+                  child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
+                ),),
+            )
           ]
       ),
       body: SafeArea(

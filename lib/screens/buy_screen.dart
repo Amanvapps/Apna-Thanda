@@ -2,10 +2,13 @@ import 'package:ecommerceapp/models/cart_model.dart';
 import 'package:ecommerceapp/models/product_model.dart';
 import 'package:ecommerceapp/pages/cart_page.dart';
 import 'package:ecommerceapp/screens/order_successful_screen.dart';
+import 'package:ecommerceapp/screens/profile_screen.dart';
 import 'package:ecommerceapp/services/auth_service.dart';
 import 'package:ecommerceapp/services/cart_service.dart';
 import 'package:ecommerceapp/services/payment_service.dart';
+import 'package:ecommerceapp/services/wishlist_service.dart';
 import 'package:ecommerceapp/utils/empty_validation.dart';
+import 'package:ecommerceapp/widgets/loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -43,6 +46,8 @@ class _BuyScreenState extends State<BuyScreen> {
   TextEditingController pincodeController = TextEditingController();
   bool isDeletingCart = false;
   bool isLoading = true;
+  List<String> wishlistProductIds = [];
+  List<ProductModel>  wishList = [];
 
 
 
@@ -60,6 +65,9 @@ class _BuyScreenState extends State<BuyScreen> {
 
       phone = prefs.getString('userMobile');
 
+      String userId = prefs.getString('userId');
+
+
 
       nameController.text = name;
       emailController.text = email;
@@ -71,6 +79,16 @@ class _BuyScreenState extends State<BuyScreen> {
       deliveryCharge = double.parse(widget.productItem.ship_charge) * widget.quantity;
 
       totalAmount = (double.parse(widget.productItem.sale_price) * widget.quantity) + deliveryCharge;
+
+//      productList = await ProductService.getProductList(widget.categories.name, widget.subCategories.name);
+      wishList = await WishlistService.getWishList(userId);
+
+      if(wishList!=null)
+      {
+        wishList.forEach((element) {
+          wishlistProductIds.add(element.prod_id);
+        });
+      }
 
 
       isLoading = false;
@@ -123,27 +141,53 @@ class _BuyScreenState extends State<BuyScreen> {
 //          backgroundColor: Colors.white,
           title: Center(child: Text('Purchase' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
-            Container(
-              margin: EdgeInsets.all(5),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen(widget.mainCtx)),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.all(5),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
 //              child: Image.network("")),
-                child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
-              ),)
+                  child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
+                ),),
+            )
           ]
       ),
       backgroundColor: Colors.white,
-      body: Stack(
+      body: (!isLoading) ? Stack(
         children: [
           ListView(
             children: [
               Align(
                 alignment: Alignment.topRight,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 30 , top: 10),
-                  child: Icon(Icons.favorite , size: 30, color: Colors.red,),
+                child: GestureDetector(
+                  onTap: (){
+                    if(wishlistProductIds.contains(widget.productItem.prod_id))
+                    {
+                      wishlistProductIds.remove(widget.productItem.prod_id);
+                      setState(() {
+                      });
+                      deleteWishlist(widget.productItem.prod_id);
+                    }
+                    else
+                    {
+                      wishlistProductIds.add(widget.productItem.prod_id);
+                      setState(() {
+                      });
+                      addToWishlist(widget.productItem.prod_id , widget.productItem.sale_price ,widget.quantity.toString());
+                    }
+
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 30 , top: 10),
+                      child: Icon((wishlistProductIds.contains(widget.productItem.prod_id.toString())) ? Icons.favorite : Icons.favorite_border  , color: Colors.grey, size: 30,)),
                 ),
-              ),
+                ),
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,6 +315,8 @@ class _BuyScreenState extends State<BuyScreen> {
             ),
           ),
         ],
+      ) : Center(
+        child: Loader.getLoader(),
       ),
     );
   }
@@ -832,6 +878,91 @@ class _BuyScreenState extends State<BuyScreen> {
     isDeletingCart = false;
     setState(() {
     });
+
+  }
+
+  addToWishlist(String prod_id, String sale_price, String quantity) async
+  {
+
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString('userId');
+
+    if(!EmptyValidation.isEmpty(userId))
+    {
+
+      bool res = await WishlistService.add(userId, prod_id, quantity, sale_price);
+
+      if(res==true)
+      {
+        Fluttertoast.showToast(msg: "Added To Wishlist" , backgroundColor: Colors.black , textColor: Colors.white);
+
+        try
+        {
+          if(wishList.length>0)
+            wishList.clear();
+
+
+          wishList = await WishlistService.getWishList(userId);
+
+
+
+          if(wishList!=null)
+          {
+            wishList.forEach((element) {
+              wishlistProductIds.add(element.prod_id);
+            });
+          }
+        }
+        catch(e) {}
+
+      }
+
+
+    }
+
+    setState(() {
+    });
+
+  }
+
+  deleteWishlist(String prod_id) async
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString('userId');
+
+    bool res = await WishlistService.deleteWishlist(userId, prod_id);
+
+    if(res == true)
+    {
+      Fluttertoast.showToast(msg: "Item Removed" , backgroundColor: Colors.black , textColor: Colors.white);
+
+    }
+    else
+    {
+      Fluttertoast.showToast(msg: "Error!" , backgroundColor: Colors.black , textColor: Colors.white);
+
+      try
+      {
+        if(wishList.length>0)
+          wishList.clear();
+
+
+
+        wishList = await WishlistService.getWishList(userId);
+
+
+
+        if(wishList!=null)
+        {
+          wishList.forEach((element) {
+            wishlistProductIds.add(element.prod_id);
+          });
+        }
+      }
+      catch(e) {}
+
+    }
 
   }
 

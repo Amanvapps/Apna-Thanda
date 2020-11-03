@@ -173,13 +173,18 @@ class _UpdatedCartScreenState extends State<UpdatedCartScreen> {
 //          backgroundColor: Colors.white,
           title: Center(child: Text('Payment' , style: TextStyle(color: Colors.white),)),
           actions : <Widget>[
-            Container(
-              margin: EdgeInsets.all(5),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
+            GestureDetector(
+              onTap: (){
+
+              },
+              child: Container(
+                margin: EdgeInsets.all(5),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
 //              child: Image.network("")),
-                child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
-              ),)
+                  child: Image.asset("images/profile_default.png" , fit: BoxFit.fill,),
+                ),),
+            )
           ]
       ),
       body: SafeArea(
